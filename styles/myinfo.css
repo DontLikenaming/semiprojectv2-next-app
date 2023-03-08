@@ -1,0 +1,12 @@
+.myinfo {
+    border-collapse: collapse;
+    width: 300px;
+    margin: 0 auto
+}
+.myinfo td {
+    padding: 5px;
+}
+.myinfo td:first-child{
+    font-weight: bold;
+    text-align: right
+}

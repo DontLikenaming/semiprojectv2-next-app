@@ -1,0 +1,33 @@
+.board {
+    width: 700px; margin: 0 auto;
+    table-layout: fixed;
+}
+.alignlft {text-align-last: left; width:500px;}
+.alignrgt {text-align-last: center;}
+.board td {text-align: center; padding: 7px;}
+/*.board {text-align: center; padding: 7px;}*/
+.board th {padding: 7px; background: lightgreen}
+.board td:nth-child(2) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+.board tr:nth-child(odd) {background: #bce55c}
+.board tr:nth-child(even) {background: #e4f7ba}
+
+.pagenation {
+    list-style: none;
+    margin: 0 auto; padding: 0;
+    text-align: center;
+}
+.pagenation li {
+    display: inline-block;
+    padding: 5px;
+}
+.cpage {
+    font: bold 24px '맑은고딕';
+    color: red;
+}
+select{padding: 3px;}
+.board input[type='text']{padding: 5px; width: 64%}
