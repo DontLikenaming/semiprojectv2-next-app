@@ -31,3 +31,5 @@
 }
 select{padding: 3px;}
 .board input[type='text']{padding: 5px; width: 64%}
+
+#ftype{height: 33px;}
