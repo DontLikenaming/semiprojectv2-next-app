@@ -1,12 +1,12 @@
 import fetch from 'isomorphic-unfetch'
 
-List.getInitialProps = async function(ctx) {
+export async function getServerSideProps(ctx) {
     const res = await fetch('http://localhost:3000/api/board/list');
-    const board = await res.json();
-    return {board: board};
+    const boards = await res.json();
+    return { props: {boards} };
 }
 
-export default function List (props) {
+export default function List ({boards}) {
     return (
         <div>
             <h2>게시판</h2>
@@ -27,7 +27,7 @@ export default function List (props) {
                             <option value="userid">작성자</option>
                         </select>
                         <input type="text" name="fkey" id="fkey"></input>
-                            <button type="button" name="findbtn" id="findbtn">검색하기</button>
+                        <button type="button" name="findbtn" id="findbtn">검색하기</button>
                     </td>
                     <td colSpan="2" className="alignrgt">
 
@@ -44,13 +44,13 @@ export default function List (props) {
                     <th>조회</th>
                 </tr>
 
-                {props.board.map(board =>
+                {boards.map(bd =>
                     <tr>
-                        <td key={board.BNO}>{board.bno}</td>
-                        <td>{board.title}</td>
-                        <td>{board.userid}</td>
-                        <td>{board.regdate}</td>
-                        <td>{board.views}</td>
+                        <td key={bd.BNO}>{bd.bno}</td>
+                        <td>{bd.title}</td>
+                        <td>{bd.userid}</td>
+                        <td>{bd.regdate}</td>
+                        <td>{bd.views}</td>
                     </tr>
                 )}
                 </tbody>
