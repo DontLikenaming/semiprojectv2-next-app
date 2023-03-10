@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>구글 recaptcha</title>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+<h1>구글 recaptcha</h1>
+<ul>
+    <li>
+        구글 recaptcha 이미지를 클릭하면 사이트키를 이용한 고유키를 하나 생성해 줌
+    </li>
+    <li>
+        구글 recaptcha 인증사이트에 비밀키와 생성된 고유키를 질의문자열로 보내
+        올바른 키인지 확인하고 결과를 json으로 받아옴
+    </li>
+    <li>
+        서버측에서는 사전에 설정해 둔 (비밀)키 등을 google의 siteverify에서 비교해서
+        인증에 성공하면 joinme로 redirect하고, 그렇지 않으면 다시 checkme로 return함
+    </li>
+    <li>
+        질의를 위한 질의문자열.
+        ?secret=비밀키&response=클라이언트응답키
+        params = {'secret': SECRET_KEY, 'response': form['g-recaptcha-response']}
+    </li>
+    <li>https://www.google.com/recaptcha/api/siteverify?secret='비밀키'&response='클라이언트응답키'</li>
+</ul>
+<form action="?" method="POST">
+  <div class="g-recaptcha" data-sitekey="?"></div>
+  <br/>
+  <input type="button" value="Submit" onclick="return check_recaptcha()">
+</form>
+
+
+<script>
+function check_recaptcha(e) {
+    let url = 'https://www.google.com/recaptcha/api/siteverify';
+    let secretkey = '?';
+    let params = "?secret=" + secretkey;
+    params += "&response=" + grecaptcha.getResponse();
+    url = url + params;
+
+    /*fetch(url,{mode:'no-cors'}).then((response)=>response).then((data)=>console.log(data));*/
+    window.open(url);
+
+    return false;
+  }
+</script>
+</body>
+</html>
