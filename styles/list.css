@@ -33,3 +33,27 @@ select{padding: 3px;}
 .board input[type='text']{padding: 5px; width: 64%}
 
 #ftype{height: 33px;}
+
+#view{
+    width: 700px;
+    margin: 0 auto;
+}
+
+#ViewLabel{
+    display: inline-block;
+    width: 110px;
+    text-align: right;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+#Viewcontents{
+    border: 1px solid #dddddd;
+    display: inline-block;
+    width: 560px;
+    min-height: 300px;
+}
+
+#ViewBtn{
+    margin-left: 17%;
+}

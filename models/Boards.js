@@ -103,20 +103,11 @@ class Board {
     async selectOne(bno) {  // 본문조회
         let conn = null;
         let params = [bno];
-        let bds = [];
+        let result = '';
 
         try {
             conn = await mariadb.makeConn();
-            let result = await conn.query(
-                boardsql.selectOne, params, mariadb.options);
-            let rs = result.resultSet;
-
-            let row = null;
-            while((row = await rs.getRow())) {
-                let bd = new Board(row.BNO, row.TITLE, row.USERID,
-                    row.REGDATE2, row.CONTENTS, row.VIEWS);
-                bds.push(bd);
-            }
+            result = await conn.query(boardsql.selectOne, params);
 
             await conn.query(boardsql.viewOne, params);
             await conn.commit();
@@ -127,7 +118,7 @@ class Board {
             await mariadb.closeConn();
         }
 
-        return bds;
+        return result;
     }
 
     async update() {
