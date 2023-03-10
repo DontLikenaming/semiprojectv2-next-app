@@ -4,11 +4,11 @@ const ppg = 25;
 let boardsql = {
     insert: ' insert into board (title, userid, contents) values (?, ?, ?)',
     select: ' select bno, title, userid, date_format(regdate, "%Y-%m-%d") regdate, ' +
-        ' views from board order by bno desc limit 0, 25 ',
+        ' views from board order by bno desc limit ?, 25 ',
 
     select1: ' select bno, title, userid, date_format(regdate, "%Y-%m-%d") regdate, ' +
         ' views from board ',
-    select2: ' order by bno desc limit 0, 25 ',
+    select2: ' order by bno desc limit ?, 25 ',
 
     selectOne: ' select * from board where bno = ? ',
 
@@ -69,14 +69,15 @@ class Board {
 
         if (fkey !== undefined) where = makeWhere(ftype, fkey);
 
-
         try {
             conn = await mariadb.makeConn();
             allcnt  = await this.selectCount(conn, where);  // 총 게시글수 계산
             idx = allcnt - stnum + 1;
 
+
             rowData = await conn.query(
                 boardsql.select1 + where + boardsql.select2, params);
+
         } catch (e) {
             console.log(e);
         } finally {

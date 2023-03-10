@@ -22,7 +22,7 @@ const getPgns = (cpg, alpg) => {
     let isprev10 = (cpg - 10 > 0);
     let isnext10 = (parseInt((cpg + 10)/10)*10 < (parseInt(alpg/10))*10+10);
     let pgn = {'prev': cpg - 1, 'next': cpg + 1, // 이전 : 현재페이지 - 1, 다음 : 현재페이지 + 1
-        'prev10': cpg - 10, 'next10': cpg + 10,
+        'prev10': cpg - 10, 'next10': (cpg + 10<alpg) ? cpg + 10 : alpg,
         'isprev': isprev, 'isnext': isnext,
         'isprev10': isprev10, 'isnext10': isnext10};
 
@@ -72,6 +72,8 @@ export default function List ({boards}) {
         if(fkey) location.href = `?ftype=${ftype}&fkey=${fkey}`;
     }
 
+    const handlewrite = (e) => { location.href = '/board/write' };
+
     return (
         <div>
             <h2>게시판</h2>
@@ -98,7 +100,7 @@ export default function List ({boards}) {
                     <td colSpan="2" className="alignrgt">
 
                         <button type="button" id="newbtn" name="newbtn"
-                                disabled>새글쓰기
+                                onClick={handlewrite}>새글쓰기
                         </button>
                     </td>
                 </tr>
