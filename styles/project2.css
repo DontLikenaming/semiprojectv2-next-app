@@ -47,3 +47,5 @@ form input{padding: 5px}
 button{padding: 5px;}
 
 .dragup {vertical-align: top}
+
+#writefrm { width: 560px; }
