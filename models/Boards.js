@@ -3,9 +3,9 @@ import mariadb from "./MariaDB"
 let boardsql = {
     insert : ' insert into board (title, userid, contents) values ' +
         ' (?, ?, ?) ' ,
-    select : ` select bno, title, userid, date_format(regdate,\'%Y-%m-%d\') as regdate, views from board order by bno desc limit 0, 10 `,
+    select : ` select bno, title, userid, date_format(regdate,\'%Y-%m-%d\') as regdate, views from board order by bno desc limit 0, 15 `,
     select1 : ` select bno, title, userid, date_format(regdate,'%Y-%m-%d') as regdate, views from board `,
-    select2 : ` order by bno desc limit ?, 10 `,
+    select2 : ` order by bno desc limit ?, 15 `,
     selectCount : ` select count(bno) cnt from board `,
     selectOne : ` select bno, title, userid, contents, date_format(regdate,'%Y-%m-%d') as regdate ` +
         ` from board where bno = ? `,
@@ -38,7 +38,7 @@ class Board {
         let insertcnt = 0;
         //console.log(this.title, this.userid, this.contents);
         try{
-            conn = await mariadb.createConnection(dbconfig);
+            conn = await mariadb.makeConn(dbconfig);
             let result = await conn.query(boardsql.insert, params);
             await conn.commit();
 
@@ -48,38 +48,35 @@ class Board {
 
         }catch (e){console.log(e)}
         finally {
-            await oracledb.closeConn(conn);
+            await mariadb.closeConn(conn);
         }
     }
-    async select(pagenum, minnum, maxnum, ppg, ftype, fkey){
+    async select(pagenum, ftype, fkey){
         let conn = null;
         let result = null;
+
+        let cpg = 1
+        let ppg = 15
+        let maxnum = cpg * ppg;
+        let minnum = maxnum - (ppg - 1);
         let params = [minnum, maxnum];
-        let bds = [];
-        let cnt = -1;
+        let [ cnt, idx ] = [-1, -1];
         let where = '';
+        let rowData = '';   // 결과저장용
         if(fkey!==undefined)where=makewhere(ftype, fkey)
+
         try{
-            conn = await oracledb.makeConn();
+            conn = await mariadb.makeConn();
 
             cnt = await this.selectCount(conn, where);   //총 게시글 수 계산
-            let idx = cnt-(ppg*(pagenum-1));
+            idx = cnt-(ppg*(pagenum-1));
+            rowData = await conn.query(boardsql.select1 + where + boardsql.select2, params);
 
-
-            result = await conn.execute(boardsql.paging1 + where + boardsql.paging2, params, oracledb.options);
-            await conn.commit();
-            let rs = result.resultSet;
-            let row = null;
-            while((row = await rs.getRow())) {
-                let bd = new Board(row.BNO, row.TITLE, row.USERID, null, row.VIEWS, row.REGDATE);
-                bd.idx = idx--; //글번호 컬럼
-                bds.push(bd);
-            }
         }catch (e){console.log(e)}
         finally {
-            await oracledb.closeConn(conn);
+            await mariadb.closeConn(conn);
         }
-        result = {'bds':bds, 'cnt':cnt};
+        result = {'boards': rowData, 'cnt': cnt, 'idx': idx};
         return result;
     }
     async selectOne(bno){
@@ -88,9 +85,9 @@ class Board {
         let bds = [];
 
         try{
-            conn = await oracledb.makeConn();
+            conn = await mariadb.makeConn();
 
-            let result = await conn.execute(boardsql.selectOne, params, oracledb.options);
+            let result = await conn.query(boardsql.selectOne, params, mariadb.options);
             await conn.commit();
             let rs = result.resultSet;
             let row = null;
@@ -98,14 +95,14 @@ class Board {
                 let bd = new Board(row.BNO, row.TITLE, row.USERID, row.CONTENTS, null, row.REGDATE);
                 bds.push(bd);
             }
-            await conn.execute(boardsql.viewOne, params);
+            await conn.query(boardsql.viewOne, params);
             await conn.commit();
             /*            for(let i=0;i<brd.length;i++){
                             console.log(brd[i]);
                         }*/
         }catch (e){console.log(e)}
         finally {
-            await oracledb.closeConn(conn);
+            await mariadb.closeConn(conn);
         }
         return bds;
     }
@@ -116,8 +113,8 @@ class Board {
         let updatecnt = 0;
         let bds = [];
         try{
-            conn = await oracledb.makeConn();
-            let result = await conn.execute(boardsql.update, params);
+            conn = await mariadb.makeConn();
+            let result = await conn.query(boardsql.update, params);
             await conn.commit();
 
             if(result.rowsAffected > 0) updatecnt = result.rowsAffected;
@@ -125,7 +122,7 @@ class Board {
             return updatecnt;
         }catch (e){console.log(e)}
         finally {
-            await oracledb.closeConn(conn);
+            await mariadb.closeConn(conn);
         }
     }
     async delete(bno){
@@ -134,8 +131,8 @@ class Board {
         let check = 0;
         let params = [bno];
         try{
-            conn = await oracledb.makeConn();
-            let result = await conn.execute(boardsql.delete, params);
+            conn = await mariadb.makeConn();
+            let result = await conn.query(boardsql.delete, params);
             await conn.commit();
 
             if(result.rowsAffected > 0) insertcnt = result.rowsAffected;
@@ -143,22 +140,19 @@ class Board {
             return insertcnt;
         }catch (e){console.log(e)}
         finally {
-            await oracledb.closeConn(conn);
+            await mariadb.closeConn(conn);
         }
     }
     async selectCount(conn, where){
-        let result = null;
         let params = [];
-        let idx = -1
+        let cnt = 0
         try{
-            result = await conn.execute(boardsql.selectCount + where, params, oracledb.options);
-            await conn.commit();
-            let rs = result.resultSet;
-            let row = null;
-            if((row = await rs.getRow()))idx = row.CNT;
+            cnt = await conn.query(boardsql.selectCount + where, params);
+
 
         }catch (e){console.log(e)}
-        return idx;
+
+        return parseInt(cnt[0].cnt);
     }
 }
 module.exports = Board;
