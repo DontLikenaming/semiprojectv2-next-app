@@ -2,7 +2,6 @@ import Boards from "../../../models/Boards"
 
 export default async (req, res) => {
     let [cpg, ftype, fkey] = [req.query.cpg, req.query.ftype, req.query.fkey];
-    cpg = (cpg&&cpg>=1) ? parseInt(cpg) : 1;
 
     try {
         const rowdata = new Boards().select(cpg, ftype, fkey).then((result) =>  result);

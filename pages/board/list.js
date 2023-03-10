@@ -1,8 +1,15 @@
 import fetch from 'isomorphic-unfetch'
 
 export async function getServerSideProps(ctx) {
-    const res = await fetch('http://localhost:3000/api/board/list');
+    let [cpg, ftype, fkey] = [ctx.cpg, ctx.ftype, ctx.fkey];
+    cpg = (cpg&&cpg>=1) ? parseInt(cpg) : 1;
+    let params = `cpg=${cpg}`;
+    let url = `http://localhost:3000/api/board/list?${params}`;
+
+    const res = await fetch(url);
     const boards = await res.json();
+    console.log(boards);
+
     return { props: {boards} };
 }
 
@@ -44,7 +51,7 @@ export default function List ({boards}) {
                     <th>조회</th>
                 </tr>
 
-                {boards.map(bd =>
+                {boards.boards.map(bd =>
                     <tr>
                         <td key={bd.BNO}>{bd.bno}</td>
                         <td>{bd.title}</td>

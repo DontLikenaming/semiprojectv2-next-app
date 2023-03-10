@@ -51,11 +51,10 @@ class Board {
             await mariadb.closeConn(conn);
         }
     }
-    async select(pagenum, ftype, fkey){
+    async select(cpg, ftype, fkey){
         let conn = null;
         let result = null;
 
-        let cpg = 1
         let ppg = 15
         let maxnum = cpg * ppg;
         let minnum = maxnum - (ppg - 1);
@@ -69,7 +68,7 @@ class Board {
             conn = await mariadb.makeConn();
 
             cnt = await this.selectCount(conn, where);   //총 게시글 수 계산
-            idx = cnt-(ppg*(pagenum-1));
+            idx = cnt-(ppg*(cpg-1));
             rowData = await conn.query(boardsql.select1 + where + boardsql.select2, params);
 
         }catch (e){console.log(e)}
