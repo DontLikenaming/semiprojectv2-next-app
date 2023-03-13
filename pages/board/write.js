@@ -1,50 +1,31 @@
 import {useState} from "react";
 import axios from "axios";
+import {check_captcha, handleInput, process_submit} from "../../models/Utils";
 
-const check_captcha = async (response) => {
-    let url = '/api/board/recaptcha?response='+response;
-    const data = axios.get(url).then(data => data.data);
-    //console.log((await data).success);
-
-    return (await data).success;
-};
-const process_write = async (data) => {
-    const cnt = fetch('/api/board/write',
-        {
-            method: 'POST', mode: 'cors', body: JSON.stringify(data),
-            headers: {'Content-Type': 'application/json'}
-        }).then(res => res.json());
-    return (await cnt).cnt;
-};
 export default function Write () {
     const [title, setTitle] = useState('');
     const [userid, setUserid] = useState('asdf');
     const [contents, setContents] = useState('');
 
-    const handleTitle = (e) => {
-        setTitle(e.target.value);
-    };
-    const handleContents = (e) => {
-        setContents(e.target.value);
-    };
     const handlewrite = async () => {
         // recaptcha를 진행하지 않으면 글을 서버로 넘길 수 없음
             if (grecaptcha.getResponse()
                 && check_captcha(grecaptcha.getResponse())) {
                 const data = {title: title, userid: userid, contents: contents};
                 //console.log(data);
-                if (await process_write(data) > 0) {
+                if (await process_submit('/api/board/write', data) > 0) {
                     location.href = '/board/list';
                 }
             }
     };
     return (
         <div>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <h3>게시판 본문글</h3>
             <form name="write" id="writefrm">
                 <div>
                     <label htmlFor="title">제목</label>
-                    <input type="text" id="title" name="title" onChange={handleTitle} />
+                    <input type="text" id="title" name="title" onChange={e => handleInput(setTitle, e)} />
                 </div>
 
                 <div>
@@ -54,7 +35,7 @@ export default function Write () {
 
                 <div>
                     <label htmlFor="contents" className="dragup">본문</label>
-                    <textarea id="contents" name="contents" rows="7" cols="55" onChange={handleContents}></textarea>
+                    <textarea id="contents" name="contents" rows="7" cols="55" onChange={e => handleInput(setContents, e)}></textarea>
                 </div>
 
                 <div><label></label>

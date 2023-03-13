@@ -8,7 +8,6 @@ export default async (req, res) => {
         //const rowData = new Board(null, title, userid, null, contents, null).insert()
         const cnt = Board.newOne(null, title, userid, contents).insert()
             .then((result) => result);
-        console.log(await cnt);
 
         res.status(200).json({cnt: await cnt});
     } catch (err) {

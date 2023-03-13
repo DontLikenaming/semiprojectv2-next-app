@@ -7,29 +7,29 @@ const Header = () => {
             <nav>
                 <ul className="navul">
                     <li>
-                        <Link href="/">
+                        <a href="/">
                             Home
-                        </Link>
+                        </a>
                     </li>
                     <li>
-                        <Link href="/member/join">
+                        <a href="/member/join">
                             회원가입
-                        </Link>
+                        </a>
                     </li>
                     <li>
-                        <Link href="/member/login">
+                        <a href="/member/login">
                             로그인
-                        </Link>
+                        </a>
                     </li>
                     <li>
-                        <Link href="/board/list">
+                        <a href="/board/list">
                             게시판
-                        </Link>
+                        </a>
                     </li>
                     <li>
-                        <Link href="/member/myinfo">
+                        <a href="/member/myinfo">
                             회원정보
-                        </Link>
+                        </a>
                     </li>
                 </ul>
                 <hr className="clear"></hr>

@@ -9,7 +9,6 @@ const Layout = ({children}) => {
             <meta charSet="UTF-8" />
             <title>Next.js 프로젝트</title>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         </head>
         <body>
         <div id="wrapper">

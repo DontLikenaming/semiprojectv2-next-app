@@ -19,7 +19,7 @@ const MariaDB = {
         if (conn) {
             try {
                 await conn.close();
-                console.log('오라클 데이터베이스 접속 해제 성공')
+                console.log('마리아 데이터베이스 접속 해제 성공')
             } catch (e) {
                 console.error(e);
             }
