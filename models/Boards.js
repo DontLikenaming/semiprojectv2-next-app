@@ -41,6 +41,10 @@ class Board {
         this.views = views;
     }
 
+    static newOne(title, userid, contents){
+        return new Board(null, title, userid, null, contents, null);
+    }
+
     async insert() {  // 새글쓰기
         let conn = null;
         let params = [this.title, this.userid, this.contents];
@@ -50,7 +54,7 @@ class Board {
             conn = await mariadb.makeConn();  // 연결
             let result = await conn.query(boardsql.insert, params); // 실행
             await conn.commit();  // 확인
-            if (result.rowsAffected > 0) insertcnt = result.rowsAffected;
+            if (result.affectedRows > 0) insertcnt = result.affectedRows;
         } catch (e) {
             console.log(e);
         } finally {

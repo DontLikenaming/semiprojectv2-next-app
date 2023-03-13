@@ -72,7 +72,7 @@ export default function List ({boards}) {
         if(fkey) location.href = `?ftype=${ftype}&fkey=${fkey}`;
     }
 
-    const handlewrite = (e) => { location.href = '/board/write' };
+    const handlewrite = () => { location.href = '/board/write' };
 
     return (
         <div>

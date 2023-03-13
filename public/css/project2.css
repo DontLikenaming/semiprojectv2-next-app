@@ -49,3 +49,6 @@ button{padding: 5px;}
 .dragup {vertical-align: top}
 
 #writefrm { width: 560px; }
+
+/*recaptcha 이미지*/
+.cap { display: inline-flex; margin: -15px 0 10px -10px; padding: 0;}
