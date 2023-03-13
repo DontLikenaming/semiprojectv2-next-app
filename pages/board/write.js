@@ -9,13 +9,11 @@ const check_captcha = async (response) => {
     return (await data).success;
 };
 const process_write = async (data) => {
-    console.log(data);
     const cnt = fetch('/api/board/write',
         {
             method: 'POST', mode: 'cors', body: JSON.stringify(data),
             headers: {'Content-Type': 'application/json'}
         }).then(res => res.json());
-    console.log(cnt);
     return (await cnt).cnt;
 };
 export default function Write () {
@@ -33,14 +31,12 @@ export default function Write () {
         // recaptcha를 진행하지 않으면 글을 서버로 넘길 수 없음
             if (grecaptcha.getResponse()
                 && check_captcha(grecaptcha.getResponse())) {
-                if(title!==null||contents!==null){
                 const data = {title: title, userid: userid, contents: contents};
                 //console.log(data);
                 if (await process_write(data) > 0) {
                     location.href = '/board/list';
                 }
-            } else {return false;}
-        }
+            }
     };
     return (
         <div>

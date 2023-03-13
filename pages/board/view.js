@@ -4,22 +4,20 @@ import axios from 'axios';
 export async function getServerSideProps(ctx) {
     let bno = ctx.query.bno;
 
-    bno = bno ? parseInt(bno) : 1;
-
     let url = `http://localhost:3000/api/board/view?bno=${bno}`;
 
     const res = await axios.get(url);
     const board = await res.data[0];
-
+    console.log(board)
     return { props : {board} }
 }
 
 export default function View ({board}) {
     const newOne = () => { location.href = '/board/write' };
     const go2list = () => { location.href = '/board/list' };
-    const updateOne = () => { location.href = `/board/update?bno=${board.bno}` };
+    const updateOne = () => { location.href = `/board/update?bno=${board.BNO}` };
     const deleteOne = () => {
-        if(confirm('정말 삭제하시겠습니까?'))location.href = `/board/delete?bno=${board.bno}`
+        if(confirm('정말 삭제하시겠습니까?'))location.href = `/api/board/delete?bno=${board.BNO}`
     };
 
     return (

@@ -6,7 +6,7 @@ export default async (req, res) => {
 
     try {
         //const rowData = new Board(null, title, userid, null, contents, null).insert()
-        const cnt = Board.newOne(title, userid, contents).insert()
+        const cnt = Board.newOne(null, title, userid, contents).insert()
             .then((result) => result);
         console.log(await cnt);
 

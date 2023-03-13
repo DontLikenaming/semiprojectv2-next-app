@@ -10,7 +10,8 @@ let boardsql = {
         ' views from board ',
     select2: ' order by bno desc limit ?, 25 ',
 
-    selectOne: ' select * from board where bno = ? ',
+    selectOne: ' select BNO, TITLE, USERID, date_format(regdate, "%Y-%m-%d %T") REGDATE, CONTENTS ' +
+        ' from board where bno = ? ',
 
     selectCount: 'select count(bno) cnt from board',
 
@@ -41,8 +42,8 @@ class Board {
         this.views = views;
     }
 
-    static newOne(title, userid, contents){
-        return new Board(null, title, userid, null, contents, null);
+    static newOne(bno, title, userid, contents){
+        return new Board(bno, title, userid, null, contents, null);
     }
 
     async insert() {  // 새글쓰기
@@ -135,7 +136,7 @@ class Board {
             conn = await mariadb.makeConn();
             let result = await conn.query(boardsql.update, params);
             await conn.commit();
-            if (result.rowsAffected > 0) updatecnt = result.rowsAffected;
+            if (result.affectedRows > 0) updatecnt = result.affectedRows;
         } catch (e) {
             console.log(e);
         } finally {
@@ -154,7 +155,7 @@ class Board {
             conn = await mariadb.makeConn();
             let result = await conn.query(boardsql.delete, params);
             await conn.commit();
-            if (result.rowsAffected > 0) deletecnt = result.rowsAffected;
+            if (result.affectedRows > 0) deletecnt = result.affectedRows;
         } catch (e) {
             console.log(e);
         } finally {
