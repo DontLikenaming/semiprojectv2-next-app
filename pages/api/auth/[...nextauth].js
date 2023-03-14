@@ -13,10 +13,11 @@ export default NextAuth({
                 passwd: {  label: "비밀번호", type: "password" }
             },
             async authorize(credentials, req) {
-                // 현 상태에선 아무 것도 안쓰거나
-                // 이메일 양식에 맞추면 아무거나 로그인 됨
-                console.log(credentials);
-                return credentials;
+                const email= credentials.email;
+                const passwd= credentials.passwd;
+                if(email==='asd@asdf'&&passwd==='asdf') {
+                    return credentials;
+                }
             }
         })
     ]
