@@ -1,8 +1,8 @@
 import axios from "axios";
 
 export async function getServerSideProps(ctx) {
-    let userid = ctx.query.userid;
-    //let userid = '아이디';
+    //userid = ctx.query.userid;
+    let userid = '아이디';
 
     let params = `userid=${userid}`;
 
@@ -14,7 +14,7 @@ export async function getServerSideProps(ctx) {
     return { props : {myinfo} }
 }
 
-const Myinfo = ({myinfo}) => {
+export default function Myinfo ({myinfo}) {
     return (
         <div>
             <h2>회원정보</h2>
@@ -41,5 +41,3 @@ const Myinfo = ({myinfo}) => {
         </div>
     );
 }
-
-export default Myinfo;

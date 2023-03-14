@@ -2,7 +2,7 @@ import mariadb from './MariaDB';
 
 let membersql = {
     insertsql : ' insert into member (userid, passwd, name, email) values (?, ?, ?, ?) ',
-    loginsql : ' select count(mno) cnt from member where userid = ? and passwd = ? ',
+    loginsql : ' select count(userid) cnt, name, email from member where userid = ? and passwd = ? ',
     selectOne : ` select userid, name, email, date_format(regdate, "%Y-%m-%d %T") regdate from member where userid = ? `
 };
 
@@ -40,24 +40,23 @@ class Member {
     async login(uid, pwd){
         let conn = null;
         let params = [uid, pwd];
-        let result = -1;
+        let result = '';
         try{
             conn = await mariadb.makeConn();
 
-            result = await conn.query(membersql.loginsql, params, mariadb.options);
+            result = await conn.query(membersql.loginsql, params);
             await conn.commit();
 
         }catch (e){console.log(e)}
         finally {
             await mariadb.closeConn(conn);
         }
-        //console.log(await isLogin);
+        //console.log(result);
         return result;
     }
     async selectOne(uid){
         let conn = null;
         let params = [uid];
-        //console.log(uid);
         let result = '';
         try{
             conn = await mariadb.makeConn();

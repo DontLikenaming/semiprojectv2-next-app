@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {check_captcha, handleInput, process_submit} from "../../models/Utils";
 
-const Join = () => {
+export default function Join () {
     const [userid, setUserid] = useState('');
     const [passwd, setPasswd] = useState('');
     const [check, setCheck] = useState('');
@@ -85,5 +85,3 @@ const Join = () => {
         </div>
     );
 }
-
-export default Join;
