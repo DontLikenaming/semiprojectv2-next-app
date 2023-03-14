@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {check_captcha, handleInput, process_submit} from "../../models/Utils";
+import {check_captcha, handleInput, hashPassword, process_submit} from "../../models/Utils";
 
 export default function Join () {
     const [userid, setUserid] = useState('');
@@ -33,7 +33,8 @@ export default function Join () {
                         alert('비밀번호를 다시 확인해주세요!');
                         break;
                     default: {
-                        const data = {userid: userid, passwd: passwd, name: name, email: email};
+                        let hshpwd = await hashPassword(passwd);  // 암호 해쉬화
+                        const data = {userid: userid, passwd: hshpwd, name: name, email: email};
                         if (await process_submit('/api/member/join', data) > 0) {
                             location.href = '/member/myinfo';
                         }

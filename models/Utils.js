@@ -1,4 +1,5 @@
 import axios from "axios";
+import bcrypt from "bcryptjs";
 
 const check_captcha = async (response) => {
     let url = '/api/board/recaptcha?response='+response;
@@ -20,4 +21,32 @@ const process_submit = async (url, data) => {
     return (await cnt).cnt;
 };
 
-module.exports = {check_captcha, handleInput, process_submit};
+const hashPassword = async (passwd) => {
+    console.log(passwd);
+    let saltRounds = 10;
+    try {
+        const salt = await bcrypt.genSalt(saltRounds);
+        const hash = await bcrypt.hash(passwd, salt);
+
+        console.log(hash);
+
+        return hash;
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const comparePasswd = async (passwd, hashpwd) => {
+    try {
+        const result = await bcrypt.compare(passwd, hashpwd);
+
+        return result;
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+module.exports = {check_captcha, handleInput, process_submit,
+                  hashPassword, comparePasswd};
