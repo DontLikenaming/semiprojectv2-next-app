@@ -20,13 +20,24 @@ export default function Update ({board}) {
     const [bno, setBno] = useState(board.BNO);
 
     const handleUpdate = async () => {
-        if (grecaptcha.getResponse()
+        if(grecaptcha.getResponse()
             && check_captcha(grecaptcha.getResponse())) {
-            const data = {title: title, contents: contents, bno: bno};
-            if (await process_submit('/api/board/update', data) > 0) {
-                location.href = '/board/view?bno='+board.BNO;
+            switch (true) {
+                case title === '':
+                    alert('제목을 입력하세요!');
+                    break;
+                case contents === '':
+                    alert('본문을 입력하세요!');
+                    break;
+                default: {
+                    const data = {title: title, contents: contents, bno: bno};
+                    if (await process_submit('/api/board/update', data) > 0) {
+                        location.href = '/board/view?bno='+board.BNO;
+                    }
+                    break;
+                }
             }
-        } else alert('!!!');
+        }
     };
     return (
         <div>

@@ -46,20 +46,20 @@ class Board {
         return new Board(bno, title, userid, null, contents, null);
     }
 
-    async insert() {  // 새글쓰기
+    async insert() {
         let conn = null;
         let params = [this.title, this.userid, this.contents];
         let insertcnt = 0;
 
         try {
-            conn = await mariadb.makeConn();  // 연결
-            let result = await conn.query(boardsql.insert, params); // 실행
-            await conn.commit();  // 확인
+            conn = await mariadb.makeConn();
+            let result = await conn.query(boardsql.insert, params);
+            await conn.commit();
             if (result.affectedRows > 0) insertcnt = result.affectedRows;
         } catch (e) {
             console.log(e);
         } finally {
-            await mariadb.closeConn(); // 종료
+            await mariadb.closeConn();
         }
 
         return insertcnt;

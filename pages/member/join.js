@@ -11,21 +11,34 @@ const Join = () => {
 
     const handlejoin = async () => {
         // recaptcha를 진행하지 않으면 글을 서버로 넘길 수 없음
-            switch ((grecaptcha.getResponse()
-            && check_captcha(grecaptcha.getResponse()))){
-                case userid==='': alert('아이디를 입력하세요!'); break;
-                case passwd==='': alert('비밀번호를 입력하세요!'); break;
-                case check==='': alert('비밀번호 확인란을 입력하세요!'); break;
-                case name==='': alert('이름을 입력하세요!'); break;
-                case email==='': alert('이메일을 입력하세요!'); break;
-                case passwd!==check: alert('비밀번호를 다시 확인해주세요!'); break;
-                default: {
-                    const data = {userid: userid, passwd: passwd, name: name, email: email};
-                    if (await process_submit('/api/member/join', data) > 0) {
-                        console.log('확인용2');
-                        location.href = '/member/myinfo';
+            if(grecaptcha.getResponse()
+            && check_captcha(grecaptcha.getResponse())) {
+                switch (true) {
+                    case userid === '':
+                        alert('아이디를 입력하세요!');
+                        break;
+                    case passwd === '':
+                        alert('비밀번호를 입력하세요!');
+                        break;
+                    case check === '':
+                        alert('비밀번호 확인란을 입력하세요!');
+                        break;
+                    case name === '':
+                        alert('이름을 입력하세요!');
+                        break;
+                    case email === '':
+                        alert('이메일을 입력하세요!');
+                        break;
+                    case passwd !== check:
+                        alert('비밀번호를 다시 확인해주세요!');
+                        break;
+                    default: {
+                        const data = {userid: userid, passwd: passwd, name: name, email: email};
+                        if (await process_submit('/api/member/join', data) > 0) {
+                            location.href = '/member/myinfo';
+                        }
+                        break;
                     }
-                    break;
                 }
             }
     };
@@ -60,7 +73,7 @@ const Join = () => {
                            onChange={e => handleInput(setEmail, e)} />
                 </div>
                 <div><label></label>
-                    <div className="g-recaptcha cap" data-sitekey='6LdD4OskAAAAAH6Uazf4s8YBShdvsgMUbU5KkmDK'></div>
+                    <div className="g-recaptcha cap2" data-sitekey='6LdD4OskAAAAAH6Uazf4s8YBShdvsgMUbU5KkmDK'></div>
                 </div>
                 <div>
                     <label></label>

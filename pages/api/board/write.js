@@ -2,7 +2,6 @@ import Board from "../../../models/Boards";
 
 export default async (req, res) => {
     const {title, userid, contents} = req.body;
-    console.log(title, userid, contents);
 
     try {
         //const rowData = new Board(null, title, userid, null, contents, null).insert()

@@ -1,5 +1,4 @@
 import {useState} from "react";
-import axios from "axios";
 import {check_captcha, handleInput, process_submit} from "../../models/Utils";
 
 export default function Write () {
@@ -9,14 +8,24 @@ export default function Write () {
 
     const handlewrite = async () => {
         // recaptcha를 진행하지 않으면 글을 서버로 넘길 수 없음
-            if (grecaptcha.getResponse()
-                && check_captcha(grecaptcha.getResponse())) {
-                const data = {title: title, userid: userid, contents: contents};
-                //console.log(data);
-                if (await process_submit('/api/board/write', data) > 0) {
-                    location.href = '/board/list';
+        if(grecaptcha.getResponse()
+            && check_captcha(grecaptcha.getResponse())) {
+            switch (true) {
+                case title === '':
+                    alert('제목을 입력하세요!');
+                    break;
+                case contents === '':
+                    alert('본문을 입력하세요!');
+                    break;
+                default: {
+                    const data = {title: title, userid: userid, contents: contents};
+                    if (await process_submit('/api/board/write', data) > 0) {
+                        location.href = '/board/list';
+                    }
+                    break;
                 }
             }
+        }
     };
     return (
         <div>

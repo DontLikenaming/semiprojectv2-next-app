@@ -8,7 +8,6 @@ export async function getServerSideProps(ctx) {
 
     const res = await axios.get(url);
     const board = await res.data[0];
-    console.log(board)
     return { props : {board} }
 }
 
