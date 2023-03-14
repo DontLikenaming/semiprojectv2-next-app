@@ -28,7 +28,7 @@ const hashPassword = async (passwd) => {
         const salt = await bcrypt.genSalt(saltRounds);
         const hash = await bcrypt.hash(passwd, salt);
 
-        console.log(hash);
+        //console.log(hash);
 
         return hash;
 

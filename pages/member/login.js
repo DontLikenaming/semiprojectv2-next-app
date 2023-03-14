@@ -1,22 +1,8 @@
 import axios from "axios";
 import {useState} from "react";
 import {handleInput} from "../../models/Utils";
+import {signIn} from "next-auth/client";
 
-/*export async function getServerSideProps(ctx) {
-    //userid = ctx.query.userid;
-    let userid = '아이디';
-    let passwd = 'qlalfqjsgh';
-
-    let params = `userid=${userid}&passwd=${passwd}`;
-
-    let url = `http://localhost:3000/api/member/myinfo?${params}`;
-
-    const res = await axios.get(url);
-    const member = await res.data[0];
-    console.log(member);
-
-    return { props : {member} }
-}*/
 export default function Login () {
     const [userid, setUserid] = useState('');
     const [passwd, setPasswd] = useState('');
@@ -24,10 +10,12 @@ export default function Login () {
     const handleLogin = async () => {
         //const data = {userid: userid, passwd: passwd};
 
-        let params = `userid=${userid}&passwd=${passwd}`;
-        const url = `http://localhost:3000/api/member/login?${params}`;
-        const res = await axios.get(url);
-        const result = await res.data;
+        // signIn('인증 할 때 활용할 Credentials id',{'인증할 때 사용할 정보'}
+        const res = await signIn('userid-passwd-credentials',{
+            userid, passwd, redirect:true
+        });
+
+        //console.log('pages/login - ', await res.status);
 
     };
 

@@ -1,8 +1,10 @@
 import mariadb from './MariaDB';
+import {comparePasswd} from './Utils';
 
 let membersql = {
     insertsql : ' insert into member (userid, passwd, name, email) values (?, ?, ?, ?) ',
-    loginsql : ' select count(userid) cnt, name, email from member where userid = ? and passwd = ? ',
+    loginsql1 : ' select passwd from member where userid = ? ',
+    loginsql2 : ' select count(userid) cnt, name, email from member where userid = ? and passwd = ? ',
     selectOne : ` select userid, name, email, date_format(regdate, "%Y-%m-%d %T") regdate from member where userid = ? `
 };
 
@@ -40,18 +42,29 @@ class Member {
     async login(uid, pwd){
         let conn = null;
         let params = [uid, pwd];
+        let check = '';
         let result = '';
+        let asdf = '';
         try{
             conn = await mariadb.makeConn();
 
-            result = await conn.query(membersql.loginsql, params);
+/*            check = await conn.query(membersql.loginsql1, params);
+            check = check[2];
+            //console.log(check.passwd);
+            if(check.passwd!==''){
+                console.log('psd: ',pwd,' check.passwd: ',check.passwd);
+                asdf = await comparePasswd(pwd,(check.passwd));
+                console.log(asdf);
+            }*/
+
+            result = await conn.query(membersql.loginsql2, params);
             await conn.commit();
 
         }catch (e){console.log(e)}
         finally {
             await mariadb.closeConn(conn);
         }
-        //console.log(result);
+        console.log(result);
         return result;
     }
     async selectOne(uid){
