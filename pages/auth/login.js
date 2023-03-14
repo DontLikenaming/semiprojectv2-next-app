@@ -8,7 +8,7 @@ const Login = () => {
     if(session){    // 세션이 존재할 때의 분기
         return (
             <>
-                <h3>{session.user.email}님 환영합니다!</h3>
+                <h3>{session.user.userid}님 환영합니다!</h3>
                 <button onClick={()=>signOut()}>로그아웃</button>
             </>
         );
