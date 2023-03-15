@@ -1,17 +1,20 @@
 //import fetch from 'isomorphic-unfetch'
 import axios from 'axios';
+import {getSession} from "next-auth/client";
 
 export async function getServerSideProps(ctx) {
+    const sess = await getSession(ctx);
+
     let bno = ctx.query.bno;
 
     let url = `http://localhost:3000/api/board/view?bno=${bno}`;
 
     const res = await axios.get(url);
     const board = await res.data[0];
-    return { props : {board} }
+    return { props : {board: board, session: sess} }
 }
 
-export default function View ({board}) {
+export default function View ({board, session}) {
     const newOne = () => { location.href = '/board/write' };
     const go2list = () => { location.href = '/board/list' };
     const updateOne = () => { location.href = `/board/update?bno=${board.BNO}` };
@@ -44,8 +47,16 @@ export default function View ({board}) {
             <div id="ViewBtn">
                 <button type="button" onClick={newOne}>새글쓰기</button>
                 <button type="button" onClick={go2list}>목록으로</button>
-                <button type="button" onClick={updateOne}>수정하기</button>
-                <button type="button" onClick={deleteOne}>삭제하기</button>
+                {
+                    session?
+                         <button type="button" onClick={updateOne}>수정하기</button>:''
+                }
+                {
+                    session?
+                         <button type="button" onClick={deleteOne}>삭제하기</button>:''
+                }
+
+
             </div>
         </div>
     )

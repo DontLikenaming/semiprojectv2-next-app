@@ -1,5 +1,17 @@
 import {useState} from "react";
 import {check_captcha, handleInput, hashPassword, process_submit} from "../../models/Utils";
+import {getSession} from "next-auth/client";
+
+export async function getServerSideProps(ctx) {
+    const sess = await getSession(ctx);
+    if(sess){
+        return {
+            redirect: { parmanent:false, destination:'/member/myinfo' },
+            props: {}
+        }
+    }
+    return { props: {} }
+}
 
 export default function Join () {
     const [userid, setUserid] = useState('');

@@ -64,7 +64,7 @@ class Member {
         finally {
             await mariadb.closeConn(conn);
         }
-        console.log(result);
+
         return result;
     }
     async selectOne(uid){

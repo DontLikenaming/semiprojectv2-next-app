@@ -1,11 +1,23 @@
 import axios from "axios";
 import {useState} from "react";
 import {handleInput} from "../../models/Utils";
-import {signIn} from "next-auth/client";
+import {getSession, signIn} from "next-auth/client";
+
+export async function getServerSideProps(ctx) {
+    const sess = await getSession(ctx);
+    if(sess){
+        return {
+            redirect: { parmanent:false, destination:'/member/myinfo' },
+            props: {}
+        }
+    }
+    return { props: {} }
+}
 
 export default function Login () {
     const [userid, setUserid] = useState('');
     const [passwd, setPasswd] = useState('');
+
 
     const handleLogin = async () => {
         //const data = {userid: userid, passwd: passwd};

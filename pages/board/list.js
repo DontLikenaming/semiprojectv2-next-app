@@ -2,6 +2,7 @@
 import {useState} from "react";
 import axios from 'axios';
 import Link from "next/link";
+import {getSession} from "next-auth/client";
 
 const getStpgns = (cpg, alpg) => {
     let stpgns = [];
@@ -30,6 +31,8 @@ const getPgns = (cpg, alpg) => {
 }
 
 export async function getServerSideProps(ctx) {
+    const sess = await getSession(ctx);
+
     let [ cpg, ftype, fkey ] = [ ctx.query.cpg, ctx.query.ftype, ctx.query.fkey ];
 
     cpg = cpg ? parseInt(cpg) : 1;
@@ -57,10 +60,10 @@ export async function getServerSideProps(ctx) {
     boards.pgn = pgn;
     boards.qry = qry;
 
-    return { props : {boards} }
+    return { props : {boards: boards, session: sess} }
 }
 
-export default function List ({boards}) {
+export default function List ({boards, session}) {
     const [ ftype, setFtype] = useState('title');
     const [ fkey, setFkey] = useState(undefined);
 
@@ -98,10 +101,12 @@ export default function List ({boards}) {
                             검색하기</button>
                     </td>
                     <td colSpan="2" className="alignrgt">
-
-                        <button type="button" id="newbtn" name="newbtn"
-                                onClick={handlewrite}>새글쓰기
-                        </button>
+                        {
+                            session?
+                            <button type="button" id="newbtn" name="newbtn"
+                                    onClick={handlewrite}>새글쓰기
+                            </button>:''
+                        }
                     </td>
                 </tr>
                 <tr>

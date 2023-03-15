@@ -1,9 +1,21 @@
 import axios from "axios";
-import {signOut, useSession} from "next-auth/client";
+import {getSession, signOut} from "next-auth/client";
+
 
 export async function getServerSideProps(ctx) {
+    // 세션 객체 가져오기
+    const sess = await getSession(ctx);
+    if(!sess){  // 로그인 하지 않은 경우 로그인으로 이동
+        return {
+            redirect: { parmanent:false, destination:'/member/login' },
+            props: {}
+        }
+    }
+
+
     //userid = ctx.query.userid;
-    let userid = '아이디';
+    //let userid = '아이디';
+    let userid = sess.user.userid;  // 로그인한 사용자 아이디
 
     let params = `userid=${userid}`;
 
@@ -12,11 +24,11 @@ export async function getServerSideProps(ctx) {
     const res = await axios.get(url);
     const myinfo = await res.data[0];
 
-    return { props : {myinfo} }
+    return { props : {myinfo: myinfo, session: sess} };
 }
 
-export default function Myinfo ({myinfo}) {
-    const [session, loading] = useSession();
+export default function Myinfo ({myinfo, session}) {
+    //const [session, loading] = useSession();
     //console.log('pages myinfo - ', session?.user?.userid);
 
     return (
