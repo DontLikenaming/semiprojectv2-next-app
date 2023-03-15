@@ -53,10 +53,6 @@ export default function Myinfo ({myinfo, session}) {
                 </tr>
                 </tbody>
             </table>
-            {
-                session?
-                <button onClick={()=>signOut()}>로그아웃</button>:''
-            }
         </div>
     );
 }

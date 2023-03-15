@@ -52,6 +52,8 @@ button{padding: 5px;}
 
 #jnbtn { margin-right: 20px; }
 
+.logout {position: absolute; top: 50%; left: 46%;}
+
 /*recaptcha 이미지*/
 .cap { display: inline-flex; margin: -15px 0 10px -10px; padding: 0;}
 .cap2 { display: inline-flex; margin: -25px 0 10px 0; padding: 0;}
