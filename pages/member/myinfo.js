@@ -1,7 +1,6 @@
 import axios from "axios";
 import {getSession, signOut} from "next-auth/client";
 
-
 export async function getServerSideProps(ctx) {
     // 세션 객체 가져오기
     const sess = await getSession(ctx);

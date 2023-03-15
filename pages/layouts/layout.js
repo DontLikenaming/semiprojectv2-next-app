@@ -2,7 +2,7 @@ import Header from "./header";
 import Footer from "./footer";
 
 
-const Layout = ({children}) => {
+const Layout = ({children, menu}) => {
     return (
         <html lang="ko">
         <head>
@@ -12,7 +12,7 @@ const Layout = ({children}) => {
         </head>
         <body>
         <div id="wrapper">
-        <Header />
+        <Header menu={menu}/>
         <main>{children}</main>
         <Footer />
         </div>

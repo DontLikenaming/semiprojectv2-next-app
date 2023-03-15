@@ -45,7 +45,10 @@ export default function View ({board, session}) {
                 <input type="hidden" id="userid" value={board.USERID} />
             </div>
             <div id="ViewBtn">
-                <button type="button" onClick={newOne}>새글쓰기</button>
+                {
+                    session?
+                <button type="button" onClick={newOne}>새글쓰기</button>:''
+                }
                 <button type="button" onClick={go2list}>목록으로</button>
                 {
                     session?
