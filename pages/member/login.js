@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {handleInput} from "../../models/Utils";
+import {handleInput} from "../../components/Utils";
 import {getSession, signIn} from "next-auth/client";
 
 export async function getServerSideProps(ctx) {

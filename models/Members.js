@@ -1,5 +1,5 @@
 import mariadb from './MariaDB';
-import {comparePasswd} from './Utils';
+import {comparePasswd} from '../components/Utils';
 
 let membersql = {
     insertsql : ' insert into member (userid, passwd, name, email) values (?, ?, ?, ?) ',

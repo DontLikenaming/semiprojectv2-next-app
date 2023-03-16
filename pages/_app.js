@@ -5,7 +5,7 @@ import '../public/css/project2.css'
 import '../public/css/index.css'
 import '../public/css/myinfo.css'
 import '../public/css/list.css'
-import Layout from "./layouts/layout";
+import Layout from "../components/layouts/layout";
 import App from "next/app";
 import {getSession, signOut} from "next-auth/client";
 

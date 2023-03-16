@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {check_captcha, handleInput, process_submit} from "../../models/Utils";
+import {check_captcha, handleInput, process_submit} from "../../components/Utils";
 
 export default function Write () {
     const [title, setTitle] = useState('');

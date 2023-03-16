@@ -3,7 +3,7 @@
 
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import {hashPassword} from "../../../models/Utils";
+import {hashPassword} from "../../../components/Utils";
 import axios from "axios";
 
 export default NextAuth({

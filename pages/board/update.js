@@ -1,6 +1,6 @@
 import axios from "axios";
 import {useState} from "react";
-import {check_captcha, handleInput, process_submit} from "../../models/Utils";
+import {check_captcha, handleInput, process_submit} from "../../components/Utils";
 
 export async function getServerSideProps(ctx) {
     let bno = ctx.query.bno;
