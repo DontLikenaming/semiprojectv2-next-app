@@ -1,6 +1,8 @@
 //import fetch from 'isomorphic-unfetch'
 import axios from 'axios';
 import {getSession} from "next-auth/client";
+import Layout from "../../components/layouts/layout";
+import Home from "../index";
 
 export async function getServerSideProps(ctx) {
     const sess = await getSession(ctx);
@@ -64,3 +66,9 @@ export default function View ({board, session}) {
         </div>
     )
 }
+
+View.getLayout = (page) => (
+    <Layout meta = {{title:'게시판 본문 보기'}}>
+        {page}
+    </Layout>
+)

@@ -1,6 +1,8 @@
 import {useState} from "react";
 import {handleInput} from "../../components/Utils";
 import {getSession, signIn} from "next-auth/client";
+import Layout from "../../components/layouts/layout";
+import Home from "../index";
 
 export async function getServerSideProps(ctx) {
     const sess = await getSession(ctx);
@@ -60,3 +62,9 @@ export default function Login () {
         </div>
     );
 }
+
+Login.getLayout = (page) => (
+    <Layout meta = {{title:'로그인'}}>
+        {page}
+    </Layout>
+)

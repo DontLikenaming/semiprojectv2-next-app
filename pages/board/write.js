@@ -1,5 +1,7 @@
 import {useState} from "react";
 import {check_captcha, handleInput, process_submit} from "../../components/Utils";
+import Layout from "../../components/layouts/layout";
+import Home from "../index";
 
 export default function Write () {
     const [title, setTitle] = useState('');
@@ -61,3 +63,9 @@ export default function Write () {
         </div>
 );
 }
+
+Write.getLayout = (page) => (
+    <Layout meta = {{title:'게시글 작성하기'}}>
+        {page}
+    </Layout>
+)

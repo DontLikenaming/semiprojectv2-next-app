@@ -3,6 +3,8 @@ import {useState} from "react";
 import axios from 'axios';
 import Link from "next/link";
 import {getSession} from "next-auth/client";
+import Layout from "../../components/layouts/layout";
+import Home from "../index";
 
 const getStpgns = (cpg, alpg) => {
     let stpgns = [];
@@ -150,3 +152,9 @@ export default function List ({boards, session}) {
         </div>
     );
 }
+
+List.getLayout = (page) => (
+    <Layout meta = {{title:'게시판'}}>
+        {page}
+    </Layout>
+)

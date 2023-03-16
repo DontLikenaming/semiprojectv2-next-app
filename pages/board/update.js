@@ -1,6 +1,8 @@
 import axios from "axios";
 import {useState} from "react";
 import {check_captcha, handleInput, process_submit} from "../../components/Utils";
+import Layout from "../../components/layouts/layout";
+import Home from "../index";
 
 export async function getServerSideProps(ctx) {
     let bno = ctx.query.bno;
@@ -76,3 +78,9 @@ export default function Update ({board}) {
         </div>
     );
 }
+
+Update.getLayout = (page) => (
+    <Layout meta = {{title:'게시글 수정하기'}}>
+        {page}
+    </Layout>
+)

@@ -1,4 +1,6 @@
 import {getSession, signOut} from "next-auth/client";
+import Layout from "../../components/layouts/layout";
+import Home from "../index";
 
 export async function getServerSideProps(ctx) {
     const sess = await getSession(ctx);
@@ -20,3 +22,9 @@ export default function Logout () {
         </main>
     );
 }
+
+Logout.getLayout = (page) => (
+    <Layout meta = {{title:'로그아웃'}}>
+        {page}
+    </Layout>
+)

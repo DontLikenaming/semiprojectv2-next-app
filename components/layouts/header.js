@@ -27,8 +27,8 @@ const Header = ({menu}) => {
                         </a>
                     </li>
                     {/*문자열을 html 태그로 출력할 때 dangerouslySetInnerHTML={{__html:'내용'}}*/}
-                    <li dangerouslySetInnerHTML={{__html:menu}}>
-                    </li>
+                    {/*<li dangerouslySetInnerHTML={{__html:menu}}></li>*/}
+                    <li><a href="/member/login">로그인</a></li>
                     <li>
                         <a href="/board/list">
                             게시판
