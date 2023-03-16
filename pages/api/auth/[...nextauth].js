@@ -29,7 +29,6 @@ export default NextAuth({
                 const result = await res.data;
 
                 if(result.cnt===1) {
-                    //console.log(credentials);
                     return credentials;
                 }
             }
