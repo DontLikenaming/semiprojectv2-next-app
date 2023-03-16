@@ -1,23 +1,22 @@
 import Header from "./header";
 import Footer from "./footer";
+import Head from "next/head";
 
 
-const Layout = ({children, menu}) => {
+const Layout = ({children, menu, meta}) => {
+    const {title, description, icon} = meta;
     return (
-        <html lang="ko">
-        <head>
-            <meta charSet="UTF-8" />
-            <title>Next.js 프로젝트</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </head>
-        <body>
+        <>
+        <Head>
+            <title>{title}</title>
+            <link rel="icon" href={icon || '/favicon.ico'} />
+        </Head>
         <div id="wrapper">
         <Header menu={menu}/>
-        <main>{children}</main>
+        {children}
         <Footer />
         </div>
-        </body>
-        </html>
+        </>
     );
 }
 

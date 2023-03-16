@@ -5,19 +5,19 @@ import '../public/css/project2.css'
 import '../public/css/index.css'
 import '../public/css/myinfo.css'
 import '../public/css/list.css'
-import Layout from "../components/layouts/layout";
-import App from "next/app";
-import {getSession, signOut} from "next-auth/client";
+import React from "react";
+import {getSession} from "next-auth/client";
 
-function MyApp({ Component, pageProps, menu }) {
+function App({ Component, pageProps, menu }) {
+  const getLayout = Component.getLayout ?? ((page)=>page);
   return (
-      <Layout menu={menu}>
-      <Component {...pageProps} />
-      </Layout>
+      <React.Fragment menu={menu}>
+          {getLayout(<Component {...pageProps} />)}
+      </React.Fragment>
       );
 }
 
-MyApp.getInitialProps = async (ctx) => {
+/*App.getInitialProps = async (ctx) => {
     // nextjs app의 기본 props 객체 초기화 - 애플리케이션 단위 전역변수
     const appProps = await App.getInitialProps(ctx);
     const sess = await getSession(ctx);
@@ -28,6 +28,6 @@ MyApp.getInitialProps = async (ctx) => {
     appProps.menu = menu;
 
     return {...appProps};
-}
+}*/
 
-export default MyApp
+export default App

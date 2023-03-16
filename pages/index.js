@@ -1,4 +1,5 @@
 import Image from './img/img.jpg'
+import Layout from "../components/layouts/layout";
 
 export default function Home() {
   return (
@@ -9,3 +10,9 @@ export default function Home() {
       </div>
   );
 }
+
+Home.getLayout = (page) => (
+    <Layout meta = {{title:'index'}}>
+        {page}
+    </Layout>
+)
